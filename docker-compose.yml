@@ -1,0 +1,53 @@
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: wander
+      POSTGRES_PASSWORD: ABCDEF
+      POSTGRES_DB: sagat_ai_development
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+
+  web:
+    build: .
+    command: bash -lc "rm -f tmp/pids/server.pid && bundle exec rails db:migrate && bundle exec rails s -b 0.0.0.0"
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    environment:
+      RAILS_ENV: development
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      REDIS_URL: ${REDIS_URL}
+    depends_on:
+      - db
+      - redis
+
+  sidekiq:
+    build: .
+    command: bundle exec sidekiq -e development
+    volumes:
+      - .:/app
+    environment:
+      RAILS_ENV: development
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      REDIS_URL: ${REDIS_URL}
+      SIDEKIQ_CONCURRENCY: ${SIDEKIQ_CONCURRENCY}
+    depends_on:
+      - db
+      - redis
+
+
+
+volumes:
+  postgres_data: 
