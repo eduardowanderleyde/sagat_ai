@@ -92,4 +92,31 @@ RSpec.describe 'Api::V1::Transactions', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/transactions/deposit' do
+    let(:deposit_params) do
+      {
+        transaction: {
+          amount: 200.00,
+          destination_account_id: user.bank_account.id
+        }
+      }
+    end
+
+    context 'com autenticação' do
+      it 'realiza um depósito na conta' do
+        expect {
+          post '/api/v1/transactions/deposit', params: deposit_params, headers: headers
+        }.to change(Transaction, :count).by(1)
+        expect(user.bank_account.reload.balance).to eq(1200.00)
+      end
+    end
+
+    context 'sem autenticação' do
+      it 'retorna status 401' do
+        post '/api/v1/transactions/deposit', params: deposit_params
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
 end

@@ -33,7 +33,7 @@ class Transaction < ApplicationRecord
   private
 
   def source_and_destination_different
-    if source_account_id == destination_account_id
+    if transaction_type == "transfer" && source_account_id == destination_account_id
       errors.add(:base, "Conta de origem e destino não podem ser a mesma")
     end
   end
