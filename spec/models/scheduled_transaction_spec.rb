@@ -25,4 +25,4 @@ RSpec.describe ScheduledTransaction, type: :model do
     sched = ScheduledTransaction.new(source_account: account1, destination_account: account1, amount: 100.0, scheduled_for: 1.day.from_now, status: "pending")
     expect(sched).not_to be_valid
   end
-end 
+end
