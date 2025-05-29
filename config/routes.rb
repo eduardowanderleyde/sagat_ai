@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       # Autenticação
       post "auth/login", to: "auth#login"
-      post "users", to: "auth#register"
+      post "auth/register", to: "auth#register"
 
       # Conta
       get "conta/saldo", to: "bank_accounts#balance"
