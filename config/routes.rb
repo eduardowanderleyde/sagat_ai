@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       # Autenticação
       post "auth/login", to: "auth#login"
-      post "users", to: "auth#register"
+      post "auth/register", to: "auth#register"
 
       # Conta
       get "conta/saldo", to: "bank_accounts#balance"
@@ -26,7 +26,7 @@ Rails.application.routes.draw do
 
       resources :users, only: [ :show, :update ]
 
-      resources :bank_accounts, only: [ :show ] do
+      resources :bank_accounts, only: [ :show, :create ] do
         get "balance", on: :member
         get "statement", on: :member
       end

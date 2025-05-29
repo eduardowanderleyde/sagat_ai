@@ -7,6 +7,15 @@ module Api
         render json: current_user.bank_account
       end
 
+      def create
+        bank_account = current_user.build_bank_account(bank_account_params)
+        if bank_account.save
+          render json: bank_account, status: :created
+        else
+          render json: { errors: bank_account.errors.full_messages }, status: :unprocessable_entity
+        end
+      end
+
       def balance
         render json: { balance: current_user.bank_account.balance }
       end
@@ -21,6 +30,12 @@ module Api
         transactions = transactions.where(transaction_type: params[:type]) if params[:type].present?
 
         render json: transactions
+      end
+
+      private
+
+      def bank_account_params
+        params.require(:bank_account).permit(:account_number, :agency, :balance)
       end
     end
   end
