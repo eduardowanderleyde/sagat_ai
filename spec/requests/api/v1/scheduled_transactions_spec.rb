@@ -1,7 +1,7 @@
-require 'rails_helper'
-require 'sidekiq/testing'
+require "rails_helper"
+require "sidekiq/testing"
 
-RSpec.describe 'Api::V1::ScheduledTransactions', type: :request do
+RSpec.describe "Api::V1::ScheduledTransactions", type: :request do
   before { Sidekiq::Testing.fake! }
 
   let(:user) { create(:user, :with_bank_account) }

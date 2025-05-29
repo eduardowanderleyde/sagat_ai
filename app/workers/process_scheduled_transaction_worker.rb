@@ -3,7 +3,7 @@ class ProcessScheduledTransactionWorker
 
   def perform(scheduled_transaction_id)
     scheduled_transaction = ScheduledTransaction.find_by(id: scheduled_transaction_id)
-    return unless scheduled_transaction && scheduled_transaction.pending?
+    return unless scheduled_transaction && scheduled_transaction.status == "pending"
 
     source_account = scheduled_transaction.source_account
     destination_account = scheduled_transaction.destination_account
@@ -31,9 +31,9 @@ class ProcessScheduledTransactionWorker
     transaction.update(status: :completed)
 
     # Mark the scheduled transaction as processed
-    scheduled_transaction.update(status: :completed, processed_at: Time.current)
+    scheduled_transaction.update!(status: :completed)
   rescue => e
     # Transaction has already been processed or no longer exists
-    scheduled_transaction.update(status: :failed, error_message: e.message) if scheduled_transaction
+    scheduled_transaction.update(status: :failed) if scheduled_transaction
   end
 end

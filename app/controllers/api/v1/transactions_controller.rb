@@ -31,10 +31,10 @@ module Api
       def deposit
         account = current_user.bank_account
         transaction = Transaction.new(
-          amount: params[:amount],
+          amount: params[:transaction][:amount],
           source_account: account,
           destination_account: account,
-          description: params[:description]
+          description: params[:transaction][:description]
         )
         transaction.transaction_type = "deposit"
 

@@ -1,6 +1,6 @@
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe 'Api::V1::Transactions', type: :request do
+RSpec.describe "Api::V1::Transactions", type: :request do
   let(:user) { create(:user, :with_bank_account) }
   let(:destination_user) { create(:user, :with_bank_account) }
   let(:token) { JWT.encode({ user_id: user.id }, Rails.application.credentials.secret_key_base) }
@@ -88,6 +88,33 @@ RSpec.describe 'Api::V1::Transactions', type: :request do
     context 'sem autenticação' do
       it 'retorna status 401' do
         get '/api/v1/transactions'
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
+
+  describe 'POST /api/v1/transactions/deposit' do
+    let(:deposit_params) do
+      {
+        transaction: {
+          amount: 200.00,
+          destination_account_id: user.bank_account.id
+        }
+      }
+    end
+
+    context 'com autenticação' do
+      it 'realiza um depósito na conta' do
+        expect {
+          post '/api/v1/transactions/deposit', params: deposit_params, headers: headers
+        }.to change(Transaction, :count).by(1)
+        expect(user.bank_account.reload.balance).to eq(1200.00)
+      end
+    end
+
+    context 'sem autenticação' do
+      it 'retorna status 401' do
+        post '/api/v1/transactions/deposit', params: deposit_params
         expect(response).to have_http_status(:unauthorized)
       end
     end

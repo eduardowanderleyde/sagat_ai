@@ -1,6 +1,6 @@
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe 'Api::V1::BankAccounts', type: :request do
+RSpec.describe "Api::V1::BankAccounts", type: :request do
   let(:user) { create(:user, :with_bank_account) }
   let(:token) { JWT.encode({ user_id: user.id }, Rails.application.credentials.secret_key_base) }
   let(:headers) { { 'Authorization' => "Bearer #{token}" } }
