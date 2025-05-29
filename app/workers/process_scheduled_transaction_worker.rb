@@ -3,7 +3,7 @@ class ProcessScheduledTransactionWorker
 
   def perform(scheduled_transaction_id)
     scheduled_transaction = ScheduledTransaction.find_by(id: scheduled_transaction_id)
-    return unless scheduled_transaction && scheduled_transaction.status == "pending"
+    return unless scheduled_transaction && scheduled_transaction.status == 'pending'
 
     source_account = scheduled_transaction.source_account
     destination_account = scheduled_transaction.destination_account
