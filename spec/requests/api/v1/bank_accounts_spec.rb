@@ -49,7 +49,8 @@ RSpec.describe 'Api::V1::BankAccounts', type: :request do
       it 'retorna o extrato da conta' do
         get "/api/v1/bank_accounts/#{user.bank_account.id}/statement", headers: headers
         expect(response).to have_http_status(:ok)
-        expect(JSON.parse(response.body).length).to eq(5)
+        body = JSON.parse(response.body)
+        expect(body["transactions"].length).to eq(5)
       end
 
       it 'filtra por data' do

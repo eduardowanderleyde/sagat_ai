@@ -20,7 +20,15 @@ module Api
         transactions = transactions.where("amount >= ?", params[:min_amount]) if params[:min_amount].present?
         transactions = transactions.where(transaction_type: params[:type]) if params[:type].present?
 
-        render json: transactions
+        # Paginação
+        transactions = transactions.page(params[:page]).per(params[:per_page] || 10)
+
+        render json: {
+          transactions: transactions,
+          current_page: transactions.current_page,
+          total_pages: transactions.total_pages,
+          total_count: transactions.total_count
+        }
       end
     end
   end
