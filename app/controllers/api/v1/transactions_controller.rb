@@ -36,7 +36,7 @@ module Api
           destination_account: account,
           description: params[:description]
         )
-        transaction.transaction_type = 'deposit'
+        transaction.transaction_type = "deposit"
 
         if transaction.save
           transaction.process!

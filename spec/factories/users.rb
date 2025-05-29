@@ -24,7 +24,7 @@ def generate_valid_cpf(n)
   d1 = sum1 * 10 % 11
   d1 = 0 if d1 == 10
   # Segundo dígito verificador
-  sum2 = (nums + [d1]).each_with_index.sum { |num, i| num * (11 - i) }
+  sum2 = (nums + [ d1 ]).each_with_index.sum { |num, i| num * (11 - i) }
   d2 = sum2 * 10 % 11
   d2 = 0 if d2 == 10
   (base + d1.to_s + d2.to_s)

@@ -35,6 +35,6 @@ class User < ApplicationRecord
       sum += cpf[i].to_i * (11 - i)
     end
     digit2 = (sum * 10 % 11) % 10
-    return errors.add(:cpf, "inválido") if digit2 != cpf[10].to_i
+    errors.add(:cpf, "inválido") if digit2 != cpf[10].to_i
   end
 end

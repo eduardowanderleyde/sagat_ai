@@ -5,8 +5,8 @@ class Transaction < ApplicationRecord
   validates :amount, presence: true, numericality: { greater_than: 0 }
   validates :transaction_type, presence: true, inclusion: { in: %w[transfer deposit] }
   validates :status, presence: true, inclusion: { in: %w[pending completed failed] }
-  validate :source_and_destination_different, if: -> { transaction_type == 'transfer' }
-  validate :source_account_has_sufficient_balance, on: :create, if: -> { transaction_type == 'transfer' }
+  validate :source_and_destination_different, if: -> { transaction_type == "transfer" }
+  validate :source_account_has_sufficient_balance, on: :create, if: -> { transaction_type == "transfer" }
 
   before_validation :set_initial_status, on: :create
 
@@ -14,7 +14,7 @@ class Transaction < ApplicationRecord
     return if completed? || failed?
 
     Transaction.transaction do
-      source_account.update_balance(-amount) if transaction_type == 'transfer'
+      source_account.update_balance(-amount) if transaction_type == "transfer"
       destination_account.update_balance(amount)
       update!(status: "completed")
     end

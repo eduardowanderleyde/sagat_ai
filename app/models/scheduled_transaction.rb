@@ -1,6 +1,6 @@
 class ScheduledTransaction < ApplicationRecord
-  belongs_to :source_account, class_name: 'BankAccount'
-  belongs_to :destination_account, class_name: 'BankAccount'
+  belongs_to :source_account, class_name: "BankAccount"
+  belongs_to :destination_account, class_name: "BankAccount"
 
   validates :amount, presence: true, numericality: { greater_than: 0 }
   validates :scheduled_for, presence: true
@@ -12,9 +12,9 @@ class ScheduledTransaction < ApplicationRecord
 
   def scheduled_for_must_be_in_future
     return unless scheduled_for.present?
-    
+
     if scheduled_for <= Time.current
-      errors.add(:scheduled_for, 'deve ser uma data futura')
+      errors.add(:scheduled_for, "deve ser uma data futura")
     end
   end
 
@@ -22,7 +22,7 @@ class ScheduledTransaction < ApplicationRecord
     return unless source_account && amount.present?
 
     if source_account.balance < amount
-      errors.add(:base, 'saldo insuficiente para realizar a transferência')
+      errors.add(:base, "saldo insuficiente para realizar a transferência")
     end
   end
 
@@ -31,4 +31,4 @@ class ScheduledTransaction < ApplicationRecord
       errors.add(:base, "Conta de origem e destino não podem ser a mesma")
     end
   end
-end 
+end
