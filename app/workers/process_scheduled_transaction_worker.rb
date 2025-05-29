@@ -36,4 +36,4 @@ class ProcessScheduledTransactionWorker
     # Transaction has already been processed or no longer exists
     scheduled_transaction.update(status: :failed, error_message: e.message) if scheduled_transaction
   end
-end 
+end

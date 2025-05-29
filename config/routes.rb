@@ -33,7 +33,7 @@ Rails.application.routes.draw do
 
       resources :transactions, only: [ :create, :index ] do
         collection do
-          post 'deposit'
+          post "deposit"
         end
       end
     end

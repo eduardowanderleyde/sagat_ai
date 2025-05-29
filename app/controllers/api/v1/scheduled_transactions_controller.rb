@@ -10,7 +10,7 @@ module Api
             scheduled_transaction.scheduled_for,
             scheduled_transaction.id
           )
-          
+
           render json: scheduled_transaction, status: :created
         else
           render json: { errors: scheduled_transaction.errors }, status: :unprocessable_entity
@@ -29,4 +29,4 @@ module Api
       end
     end
   end
-end 
+end
