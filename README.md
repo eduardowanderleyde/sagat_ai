@@ -173,17 +173,17 @@ Authorization: Bearer <token>
 
 ## 📝 What I would do differently with more time / Future improvements
 
-* Implement pagination in statement endpoints
-* Add more detailed Swagger/OpenAPI documentation and examples
-* Implement detailed audit logs for all critical operations
-* Improve test coverage (integration and edge cases)
-* Implement API versioning
-* Add admin dashboard for user/account management
-* Add rate limiting and brute-force protection
-* Add email notifications for scheduled/failed transfers
-* Add 2FA/MFA for sensitive operations
-* Add monitoring and alerting (ex: Sentry, NewRelic)
-* Add internationalization (i18n) for multi-language support
+* ✅ Implement pagination in statement endpoints *(already implemented with kaminari)*
+* 🟡 Add more detailed Swagger/OpenAPI documentation and examples *(basic docs present, can be expanded)*
+* 🟡 Implement detailed audit logs for all critical operations *(AuditLog model exists, can be expanded)*
+* 🟡 Improve test coverage (integration and edge cases) *(good coverage, always room for more)*
+* ✅ Implement API versioning *(already using /api/v1/ namespace)*
+* ⬜️ Add admin dashboard for user/account management *(not implemented)*
+* ⬜️ Add rate limiting and brute-force protection *(not implemented)*
+* ⬜️ Add email notifications for scheduled/failed transfers *(not implemented)*
+* ⬜️ Add 2FA/MFA for sensitive operations *(not implemented)*
+* ⬜️ Add monitoring and alerting (ex: Sentry, NewRelic) *(not implemented)*
+* ⬜️ Add internationalization (i18n) for multi-language support *(not implemented)*
 
 ## 📸 Screenshots or GIFs (optional)
 
