@@ -1,0 +1,527 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/api/v1/auth/register":
+    post:
+      summary: Registers a new user
+      tags:
+      - Authentication
+      parameters: []
+      responses:
+        '201':
+          description: user created
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                      example: user@example.com
+                    password:
+                      type: string
+                      example: password123
+                    name:
+                      type: string
+                      example: Test User
+                    cpf:
+                      type: string
+                      example: '52998224725'
+                  required:
+                  - email
+                  - password
+                  - name
+                  - cpf
+              required:
+              - user
+  "/api/v1/account/balance":
+    get:
+      summary: Get current user account balance
+      tags:
+      - Bank Account
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: balance returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  balance:
+                    type: number
+                    format: float
+                required:
+                - balance
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+  "/api/v1/bank_accounts/{id}":
+    get:
+      summary: Get user bank account
+      tags:
+      - Bank Account
+      security:
+      - Bearer: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Bank Account ID
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: bank account found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  account_number:
+                    type: string
+                    example: A1B2C3D4
+                  agency:
+                    type: string
+                    example: '1234'
+                  balance:
+                    type: number
+                    format: float
+                    example: 1000.0
+                required:
+                - id
+                - account_number
+                - agency
+                - balance
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+  "/api/v1/bank_accounts/{id}/balance":
+    get:
+      summary: Get balance for a specific bank account
+      tags:
+      - Bank Account
+      security:
+      - Bearer: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Bank Account ID
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: balance returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  balance:
+                    type: number
+                    format: float
+                    example: 1000.0
+                required:
+                - balance
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+  "/api/v1/bank_accounts/{id}/statement":
+    get:
+      summary: Get statement for a specific bank account
+      tags:
+      - Bank Account
+      security:
+      - Bearer: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Bank Account ID
+        schema:
+          type: integer
+      - name: start_date
+        in: query
+        format: date
+        required: false
+        description: Start date filter
+        schema:
+          type: string
+      - name: end_date
+        in: query
+        format: date
+        required: false
+        description: End date filter
+        schema:
+          type: string
+      - name: min_amount
+        in: query
+        format: float
+        required: false
+        description: Minimum amount filter
+        schema:
+          type: number
+      - name: type
+        in: query
+        required: false
+        description: Transaction type filter
+        schema:
+          type: string
+      responses:
+        '200':
+          description: statement returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  transactions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        amount:
+                          type: number
+                          format: float
+                        transaction_type:
+                          type: string
+                        status:
+                          type: string
+                        created_at:
+                          type: string
+                          format: date_time
+                  current_page:
+                    type: integer
+                  total_pages:
+                    type: integer
+                  total_count:
+                    type: integer
+                required:
+                - transactions
+                - current_page
+                - total_pages
+                - total_count
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+  "/api/v1/auth/login":
+    post:
+      summary: Authenticate user and return JWT
+      tags:
+      - Authentication
+      parameters: []
+      responses:
+        '200':
+          description: authenticated
+        '401':
+          description: unauthorized
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: user@example.com
+                password:
+                  type: string
+                  example: password123
+              required:
+              - email
+              - password
+  "/api/v1/scheduled_transactions":
+    post:
+      summary: Schedule a new transfer
+      tags:
+      - Scheduled Transactions
+      security:
+      - Bearer: []
+      parameters: []
+      responses:
+        '201':
+          description: scheduled transaction created
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                transaction:
+                  type: object
+                  properties:
+                    amount:
+                      type: number
+                      format: float
+                      example: 50.0
+                    destination_account_id:
+                      type: integer
+                      example: 2
+                    description:
+                      type: string
+                      example: Rent payment
+                    scheduled_for:
+                      type: string
+                      format: date_time
+                      example: '2025-05-25T10:00:00'
+                  required:
+                  - amount
+                  - destination_account_id
+                  - scheduled_for
+              required:
+              - transaction
+  "/api/v1/statement":
+    get:
+      summary: Get account statement with optional filters
+      tags:
+      - Statement
+      security:
+      - Bearer: []
+      parameters:
+      - name: start_date
+        in: query
+        format: date
+        required: false
+        description: Start date filter
+        schema:
+          type: string
+      - name: end_date
+        in: query
+        format: date
+        required: false
+        description: End date filter
+        schema:
+          type: string
+      - name: min_amount
+        in: query
+        format: float
+        required: false
+        description: Minimum amount filter
+        schema:
+          type: number
+      - name: type
+        in: query
+        required: false
+        description: Transaction type filter
+        schema:
+          type: string
+      responses:
+        '200':
+          description: statement returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  transactions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        amount:
+                          type: number
+                          format: float
+                        transaction_type:
+                          type: string
+                        status:
+                          type: string
+                        created_at:
+                          type: string
+                          format: date_time
+                  current_page:
+                    type: integer
+                  total_pages:
+                    type: integer
+                  total_count:
+                    type: integer
+                required:
+                - transactions
+                - current_page
+                - total_pages
+                - total_count
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+  "/api/v1/transactions":
+    post:
+      summary: Create a new transfer transaction
+      tags:
+      - Transactions
+      security:
+      - Bearer: []
+      parameters: []
+      responses:
+        '201':
+          description: transaction created
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                transaction:
+                  type: object
+                  properties:
+                    amount:
+                      type: number
+                      format: float
+                      example: 100.0
+                    destination_account_id:
+                      type: integer
+                      example: 2
+                    description:
+                      type: string
+                      example: Transfer payment
+                  required:
+                  - amount
+                  - destination_account_id
+              required:
+              - transaction
+  "/api/v1/users/{id}":
+    get:
+      summary: Get user data
+      tags:
+      - Users
+      security:
+      - Bearer: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: User ID
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: user found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  email:
+                    type: string
+                  name:
+                    type: string
+                  cpf:
+                    type: string
+                required:
+                - id
+                - email
+                - name
+                - cpf
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+    patch:
+      summary: Update user data
+      tags:
+      - Users
+      security:
+      - Bearer: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: User ID
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: user updated
+        '422':
+          description: invalid data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      example: New Name
+                    email:
+                      type: string
+                      example: new@email.com
+                    password:
+                      type: string
+                      example: newPassword123
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com

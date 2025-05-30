@@ -6,14 +6,14 @@ class BankAccount < ApplicationRecord
 
   validates :account_number, presence: true, uniqueness: true
   validates :balance, presence: true, numericality: { greater_than_or_equal_to: 0 }
-  validates :agency, presence: true, format: { with: /\A\d{4}\z/, message: "deve conter 4 dígitos" }
+  validates :agency, presence: true, format: { with: /\A\d{4}\z/, message: "must contain 4 digits" }
 
   before_validation :generate_account_number, on: :create
 
   def update_balance(amount)
     with_lock do
       new_balance = balance + amount
-      raise ActiveRecord::RecordInvalid if new_balance < 0
+      raise ActiveRecord::RecordInvalid.new(self), "Insufficient balance" if new_balance < 0
       update!(balance: new_balance)
     end
   end
@@ -21,6 +21,6 @@ class BankAccount < ApplicationRecord
   private
 
   def generate_account_number
-    self.account_number = SecureRandom.hex(6).upcase
+    self.account_number = AccountNumberGenerator.generate
   end
 end
