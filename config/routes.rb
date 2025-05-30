@@ -17,7 +17,7 @@ Rails.application.routes.draw do
       post "scheduled_transactions", to: "scheduled_transactions#create"
       get "statement", to: "transactions#index"
 
-      resources :users, only: [ :show, :update ]
+      resources :users, only: [ :show, :update, :index ]
 
       resources :bank_accounts, only: [ :show ] do
         get "balance", on: :member

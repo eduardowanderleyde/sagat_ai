@@ -1,6 +1,7 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
+  # Settings specified here will take precedence over those in config/application.rb.
 
   config.enable_reloading = true
 
@@ -42,5 +43,4 @@ Rails.application.configure do
   config.action_view.annotate_rendered_view_with_filenames = true
 
   config.action_controller.raise_on_missing_callback_actions = true
-
 end

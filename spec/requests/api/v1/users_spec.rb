@@ -5,10 +5,6 @@ RSpec.describe "Api::V1::Users", type: :request do
   let(:token) { JWT.encode({ user_id: user.id }, Rails.application.credentials.secret_key_base) }
   let(:headers) { { 'Authorization' => "Bearer #{token}" } }
 
-  describe "GET /index" do
-    pending "add some examples (or delete) #{__FILE__}"
-  end
-
   describe "GET /api/v1/users/:id" do
     context "with authentication" do
       it "returns the user data" do
@@ -46,6 +42,28 @@ RSpec.describe "Api::V1::Users", type: :request do
         patch "/api/v1/users/#{user.id}", params: { user: { name: "Novo Nome" } }
         expect(response).to have_http_status(:unauthorized)
       end
+    end
+  end
+
+  describe "GET /api/v1/users" do
+    let(:admin) { create(:user, admin: true) }
+    let(:admin_token) { JWT.encode({ user_id: admin.id }, Rails.application.credentials.secret_key_base) }
+    let(:admin_headers) { { 'Authorization' => "Bearer #{admin_token}" } }
+
+    before do
+      create_list(:user, 3)
+    end
+
+    it "returns all users for admin" do
+      get "/api/v1/users", headers: admin_headers
+      expect(response).to have_http_status(:ok)
+      body = JSON.parse(response.body)
+      expect(body.length).to eq(4)
+    end
+
+    it "returns forbidden for non-admin user" do
+      get "/api/v1/users", headers: headers
+      expect(response).to have_http_status(:forbidden)
     end
   end
 end

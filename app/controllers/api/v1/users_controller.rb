@@ -15,6 +15,14 @@ module Api
         end
       end
 
+      def index
+        unless current_user&.admin?
+          render json: { error: "Forbidden" }, status: :forbidden and return
+        end
+        users = User.all
+        render json: users.as_json(except: :password_digest)
+      end
+
       private
 
       def user_params
