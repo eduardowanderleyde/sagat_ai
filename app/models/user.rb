@@ -1,14 +1,10 @@
-class User < ApplicationRecord
-  has_secure_password
-  has_one :bank_account, dependent: :destroy
+module CpfValidatable
+  extend ActiveSupport::Concern
 
-  validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
-  validates :name, presence: true
-  validates :cpf, presence: true, uniqueness: true, format: { with: /\A\d{11}\z/, message: "must contain 11 digits" }
-  validates :password, length: { minimum: 6 }, if: -> { new_record? || !password.nil? }
-  validate :valid_cpf
-
-  before_validation :strip_cpf
+  included do
+    validate :valid_cpf
+    before_validation :strip_cpf
+  end
 
   private
 
@@ -28,7 +24,6 @@ class User < ApplicationRecord
     digit1 = (sum * 10 % 11) % 10
     return errors.add(:cpf, "invalid") if digit1 != cpf[9].to_i
 
-
     sum = 0
     10.times do |i|
       sum += cpf[i].to_i * (11 - i)
@@ -36,4 +31,15 @@ class User < ApplicationRecord
     digit2 = (sum * 10 % 11) % 10
     errors.add(:cpf, "invalid") if digit2 != cpf[10].to_i
   end
+end
+
+class User < ApplicationRecord
+  include CpfValidatable
+  has_secure_password
+  has_one :bank_account, dependent: :destroy
+
+  validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :name, presence: true
+  validates :cpf, presence: true, uniqueness: true, format: { with: /\A\d{11}\z/, message: "must contain 11 digits" }
+  validates :password, length: { minimum: 6 }, if: -> { new_record? || !password.nil? }
 end
