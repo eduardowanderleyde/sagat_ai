@@ -1,130 +1,6 @@
 {
   "RSpec": {
     "coverage": {
-      "/Users/Wander/sagat_ai/app/models/user.rb": {
-        "lines": [
-          1,
-          1,
-          1,
-          null,
-          1,
-          1,
-          1,
-          16,
-          1,
-          null,
-          1,
-          null,
-          1,
-          null,
-          1,
-          15,
-          null,
-          null,
-          1,
-          15,
-          15,
-          15,
-          null,
-          15,
-          15,
-          135,
-          null,
-          15,
-          15,
-          null,
-          null,
-          15,
-          15,
-          150,
-          null,
-          15,
-          15,
-          null,
-          null
-        ]
-      },
-      "/Users/Wander/sagat_ai/app/models/application_record.rb": {
-        "lines": [
-          1,
-          1,
-          null
-        ]
-      },
-      "/Users/Wander/sagat_ai/app/controllers/api/v1/users_controller.rb": {
-        "lines": [
-          1,
-          1,
-          1,
-          1,
-          null,
-          1,
-          1,
-          null,
-          null,
-          1,
-          2,
-          1,
-          null,
-          1,
-          null,
-          null,
-          null,
-          1,
-          2,
-          1,
-          null,
-          1,
-          1,
-          null,
-          null,
-          1,
-          null,
-          1,
-          2,
-          null,
-          null,
-          null,
-          null
-        ]
-      },
-      "/Users/Wander/sagat_ai/app/controllers/application_controller.rb": {
-        "lines": [
-          1,
-          1,
-          null
-        ]
-      },
-      "/Users/Wander/sagat_ai/app/controllers/concerns/jwt_authenticatable.rb": {
-        "lines": [
-          1,
-          1,
-          null,
-          1,
-          1,
-          1,
-          null,
-          null,
-          1,
-          null,
-          1,
-          7,
-          7,
-          null,
-          7,
-          5,
-          2,
-          2,
-          null,
-          null,
-          null,
-          1,
-          0,
-          null,
-          null,
-          null
-        ]
-      },
       "/Users/Wander/sagat_ai/app/controllers/api/v1/auth_controller.rb": {
         "lines": [
           0,
@@ -306,6 +182,83 @@
         ],
         "branches": {}
       },
+      "/Users/Wander/sagat_ai/app/controllers/api/v1/users_controller.rb": {
+        "lines": [
+          0,
+          0,
+          0,
+          0,
+          null,
+          0,
+          0,
+          0,
+          null,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          null,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          null,
+          0,
+          null,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "branches": {}
+      },
+      "/Users/Wander/sagat_ai/app/controllers/application_controller.rb": {
+        "lines": [
+          0,
+          0,
+          0
+        ],
+        "branches": {}
+      },
+      "/Users/Wander/sagat_ai/app/controllers/concerns/jwt_authenticatable.rb": {
+        "lines": [
+          0,
+          0,
+          null,
+          0,
+          0,
+          0,
+          0,
+          null,
+          0,
+          null,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          null,
+          0,
+          0,
+          0,
+          0,
+          null
+        ],
+        "branches": {}
+      },
       "/Users/Wander/sagat_ai/app/jobs/application_job.rb": {
         "lines": [
           0,
@@ -316,6 +269,14 @@
       "/Users/Wander/sagat_ai/app/mailers/application_mailer.rb": {
         "lines": [
           0,
+          0,
+          0,
+          0
+        ],
+        "branches": {}
+      },
+      "/Users/Wander/sagat_ai/app/models/application_record.rb": {
+        "lines": [
           0,
           0,
           0
@@ -447,6 +408,50 @@
         ],
         "branches": {}
       },
+      "/Users/Wander/sagat_ai/app/models/user.rb": {
+        "lines": [
+          0,
+          0,
+          0,
+          null,
+          0,
+          0,
+          0,
+          0,
+          0,
+          null,
+          0,
+          null,
+          0,
+          null,
+          0,
+          0,
+          0,
+          null,
+          0,
+          0,
+          0,
+          0,
+          null,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          null,
+          null,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "branches": {}
+      },
       "/Users/Wander/sagat_ai/app/workers/process_scheduled_transaction_worker.rb": {
         "lines": [
           0,
@@ -487,6 +492,6 @@
         "branches": {}
       }
     },
-    "timestamp": 1748564679
+    "timestamp": 1748569219
   }
 }

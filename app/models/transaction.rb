@@ -14,14 +14,7 @@ class Transaction < ApplicationRecord
   def process!
     return if completed? || failed?
 
-    Transaction.transaction do
-      source_account.update_balance(-amount) if transaction_type == "transfer"
-      destination_account.update_balance(amount)
-      update!(status: "completed")
-    end
-  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved => e
-    update!(status: "failed")
-    Rails.logger.error("Transaction failed: #{e.message}")
+    TransactionProcessor.process(self)
   end
 
   def completed?

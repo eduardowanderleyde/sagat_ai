@@ -8,7 +8,7 @@ module Api
         if user.nil?
           render json: { error: "Email not found" }, status: :unauthorized
         elsif user.authenticate(params[:password])
-          token = generate_token(user)
+          token = TokenService.generate(user)
           render json: { token: token, user: user.as_json(except: :password_digest) }
         else
           render json: { error: "Invalid password" }, status: :unauthorized
@@ -19,7 +19,7 @@ module Api
         user = User.new(user_params)
         if user.save
           user.create_bank_account(balance: 0)
-          token = generate_token(user)
+          token = TokenService.generate(user)
           render json: { token: token, user: user.as_json(except: :password_digest) }, status: :created
         else
           render json: { errors: user.errors.full_messages }, status: :unprocessable_entity

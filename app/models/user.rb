@@ -17,19 +17,9 @@ module CpfValidatable
     return if cpf.length != 11
     return if cpf.chars.uniq.length == 1
 
-    sum = 0
-    9.times do |i|
-      sum += cpf[i].to_i * (10 - i)
+    unless CpfValidator.valid?(cpf)
+      errors.add(:cpf, "invalid")
     end
-    digit1 = (sum * 10 % 11) % 10
-    return errors.add(:cpf, "invalid") if digit1 != cpf[9].to_i
-
-    sum = 0
-    10.times do |i|
-      sum += cpf[i].to_i * (11 - i)
-    end
-    digit2 = (sum * 10 % 11) % 10
-    errors.add(:cpf, "invalid") if digit2 != cpf[10].to_i
   end
 end
 

@@ -21,6 +21,6 @@ class BankAccount < ApplicationRecord
   private
 
   def generate_account_number
-    self.account_number = SecureRandom.hex(6).upcase
+    self.account_number = AccountNumberGenerator.generate
   end
 end
