@@ -13,17 +13,17 @@ FactoryBot.define do
   end
 end
 
-# Gera um CPF válido e único para cada n
-# Algoritmo: usa n para gerar os dígitos, calcula os dígitos verificadores
-# Não é para produção, apenas para testes!
+# Generates a valid and unique CPF for each n
+# Algorithm: uses n to generate the digits, calculates the check digits
+# Not for production, only for tests!
 def generate_valid_cpf(n)
   base = (n % 1_000_000_000).to_s.rjust(9, '0')
   nums = base.chars.map(&:to_i)
-  # Primeiro dígito verificador
+  # First check digit
   sum1 = nums.each_with_index.sum { |num, i| num * (10 - i) }
   d1 = sum1 * 10 % 11
   d1 = 0 if d1 == 10
-  # Segundo dígito verificador
+  # Second check digit
   sum2 = (nums + [ d1 ]).each_with_index.sum { |num, i| num * (11 - i) }
   d2 = sum2 * 10 % 11
   d2 = 0 if d2 == 10

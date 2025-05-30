@@ -10,19 +10,12 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      # Autenticação
       post "auth/login", to: "auth#login"
       post "auth/register", to: "auth#register"
-
-      # Conta
-      get "conta/saldo", to: "bank_accounts#balance"
-
-      # Transferências
-      post "transferencias", to: "transactions#create"
-      post "transferencias/agendada", to: "scheduled_transactions#create"
-
-      # Extrato
-      get "extrato", to: "transactions#index"
+      get "account/balance", to: "bank_accounts#balance"
+      post "transactions", to: "transactions#create"
+      post "scheduled_transactions", to: "scheduled_transactions#create"
+      get "statement", to: "transactions#index"
 
       resources :users, only: [ :show, :update ]
 

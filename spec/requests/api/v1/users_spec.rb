@@ -10,16 +10,16 @@ RSpec.describe "Api::V1::Users", type: :request do
   end
 
   describe "GET /api/v1/users/:id" do
-    context "com autenticação" do
-      it "retorna os dados do usuário" do
+    context "with authentication" do
+      it "returns the user data" do
         get "/api/v1/users/#{user.id}", headers: headers
         expect(response).to have_http_status(:ok)
         expect(JSON.parse(response.body)["id"]).to eq(user.id)
       end
     end
 
-    context "sem autenticação" do
-      it "retorna status 401" do
+    context "without authentication" do
+      it "returns status 401" do
         get "/api/v1/users/#{user.id}"
         expect(response).to have_http_status(:unauthorized)
       end
@@ -27,22 +27,22 @@ RSpec.describe "Api::V1::Users", type: :request do
   end
 
   describe "PATCH /api/v1/users/:id" do
-    context "com autenticação" do
-      it "atualiza os dados do usuário" do
+    context "with authentication" do
+      it "updates the user data" do
         patch "/api/v1/users/#{user.id}", params: { user: { name: "Novo Nome" } }, headers: headers
         expect(response).to have_http_status(:ok)
         expect(JSON.parse(response.body)["name"]).to eq("Novo Nome")
       end
 
-      it "retorna erro se os dados forem inválidos" do
+      it "returns error if the data is invalid" do
         patch "/api/v1/users/#{user.id}", params: { user: { email: "" } }, headers: headers
         expect(response).to have_http_status(:unprocessable_entity)
         expect(JSON.parse(response.body)).to have_key("errors")
       end
     end
 
-    context "sem autenticação" do
-      it "retorna status 401" do
+    context "without authentication" do
+      it "returns status 401" do
         patch "/api/v1/users/#{user.id}", params: { user: { name: "Novo Nome" } }
         expect(response).to have_http_status(:unauthorized)
       end

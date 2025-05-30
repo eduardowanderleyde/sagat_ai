@@ -155,7 +155,6 @@
           119,
           119,
           null,
-          null,
           119,
           119,
           1071,
@@ -186,15 +185,12 @@
           1,
           1,
           null,
-          null,
           1,
           0,
           0,
           null,
           null,
-          null,
           1,
-          null,
           null,
           null,
           null,
@@ -208,9 +204,7 @@
           null,
           1,
           null,
-          null,
           1,
-          null,
           null,
           0,
           null,
@@ -463,11 +457,6 @@
       "/Users/Wander/sagat_ai/app/jobs/application_job.rb": {
         "lines": [
           0,
-          null,
-          null,
-          null,
-          null,
-          null,
           0
         ],
         "branches": {}
@@ -482,6 +471,6 @@
         "branches": {}
       }
     },
-    "timestamp": 1748554014
+    "timestamp": 1748563293
   }
 }

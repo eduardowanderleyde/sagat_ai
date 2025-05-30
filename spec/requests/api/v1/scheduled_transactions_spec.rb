@@ -9,7 +9,7 @@ RSpec.describe "Api::V1::ScheduledTransactions", type: :request do
   let(:token) { JWT.encode({ user_id: user.id }, Rails.application.credentials.secret_key_base) }
   let(:headers) { { 'Authorization' => "Bearer #{token}" } }
 
-  describe 'POST /api/v1/transferencias/agendada' do
+  describe 'POST /api/v1/scheduled_transactions' do
     let(:valid_params) do
       {
         transaction: {
@@ -21,33 +21,33 @@ RSpec.describe "Api::V1::ScheduledTransactions", type: :request do
       }
     end
 
-    context 'com autenticação' do
-      context 'com parâmetros válidos' do
-        it 'cria uma nova transação agendada' do
+    context 'with authentication' do
+      context 'with valid parameters' do
+        it 'creates a new scheduled transaction' do
           expect {
-            post '/api/v1/transferencias/agendada', params: valid_params, headers: headers
+            post '/api/v1/scheduled_transactions', params: valid_params, headers: headers
           }.to change(ScheduledTransaction, :count).by(1)
         end
 
-        it 'não atualiza os saldos das contas imediatamente' do
+        it 'does not update the account balances immediately' do
           expect {
-            post '/api/v1/transferencias/agendada', params: valid_params, headers: headers
+            post '/api/v1/scheduled_transactions', params: valid_params, headers: headers
           }.not_to change { user.bank_account.reload.balance }
         end
 
-        it 'retorna status 201' do
-          post '/api/v1/transferencias/agendada', params: valid_params, headers: headers
+        it 'returns status 201' do
+          post '/api/v1/scheduled_transactions', params: valid_params, headers: headers
           expect(response).to have_http_status(:created)
         end
 
-        it 'agenda o job para processar a transação' do
+        it 'schedules the job to process the transaction' do
           expect {
-            post '/api/v1/transferencias/agendada', params: valid_params, headers: headers
+            post '/api/v1/scheduled_transactions', params: valid_params, headers: headers
           }.to change { ProcessScheduledTransactionWorker.jobs.size }.by(1)
         end
       end
 
-      context 'com parâmetros inválidos' do
+      context 'with invalid parameters' do
         let(:invalid_params) do
           {
             transaction: {
@@ -58,22 +58,22 @@ RSpec.describe "Api::V1::ScheduledTransactions", type: :request do
           }
         end
 
-        it 'não cria a transação agendada' do
+        it 'does not create the scheduled transaction' do
           expect {
-            post '/api/v1/transferencias/agendada', params: invalid_params, headers: headers
+            post '/api/v1/scheduled_transactions', params: invalid_params, headers: headers
           }.not_to change(ScheduledTransaction, :count)
         end
 
-        it 'retorna status 422' do
-          post '/api/v1/transferencias/agendada', params: invalid_params, headers: headers
+        it 'returns status 422' do
+          post '/api/v1/scheduled_transactions', params: invalid_params, headers: headers
           expect(response).to have_http_status(:unprocessable_entity)
         end
       end
     end
 
-    context 'sem autenticação' do
-      it 'retorna status 401' do
-        post '/api/v1/transferencias/agendada', params: valid_params
+    context 'without authentication' do
+      it 'returns status 401' do
+        post '/api/v1/scheduled_transactions', params: valid_params
         expect(response).to have_http_status(:unauthorized)
       end
     end

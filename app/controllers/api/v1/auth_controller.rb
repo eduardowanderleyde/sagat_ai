@@ -9,7 +9,7 @@ module Api
           token = generate_token(user)
           render json: { token: token, user: user.as_json(except: :password_digest) }
         else
-          render json: { error: "Credenciais inv\u00E1lidas" }, status: :unauthorized
+          render json: { error: "Invalid credentials" }, status: :unauthorized
         end
       end
 

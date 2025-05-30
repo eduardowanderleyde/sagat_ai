@@ -6,16 +6,16 @@ RSpec.describe "Api::V1::BankAccounts", type: :request do
   let(:headers) { { 'Authorization' => "Bearer #{token}" } }
 
   describe 'GET /api/v1/bank_accounts/:id' do
-    context 'com autenticação' do
-      it 'retorna a conta bancária do usuário' do
+    context 'with authentication' do
+      it 'returns the user bank account' do
         get "/api/v1/bank_accounts/#{user.bank_account.id}", headers: headers
         expect(response).to have_http_status(:ok)
         expect(JSON.parse(response.body)['id']).to eq(user.bank_account.id)
       end
     end
 
-    context 'sem autenticação' do
-      it 'retorna status 401' do
+    context 'without authentication' do
+      it 'returns status 401' do
         get "/api/v1/bank_accounts/#{user.bank_account.id}"
         expect(response).to have_http_status(:unauthorized)
       end
@@ -23,16 +23,16 @@ RSpec.describe "Api::V1::BankAccounts", type: :request do
   end
 
   describe 'GET /api/v1/bank_accounts/:id/balance' do
-    context 'com autenticação' do
-      it 'retorna o saldo da conta' do
+    context 'with authentication' do
+      it 'returns the account balance' do
         get "/api/v1/bank_accounts/#{user.bank_account.id}/balance", headers: headers
         expect(response).to have_http_status(:ok)
         expect(JSON.parse(response.body)['balance'].to_f).to eq(user.bank_account.balance.to_f)
       end
     end
 
-    context 'sem autenticação' do
-      it 'retorna status 401' do
+    context 'without authentication' do
+      it 'returns status 401' do
         get "/api/v1/bank_accounts/#{user.bank_account.id}/balance"
         expect(response).to have_http_status(:unauthorized)
       end
@@ -45,15 +45,15 @@ RSpec.describe "Api::V1::BankAccounts", type: :request do
       create_list(:transaction, 2, destination_account: user.bank_account)
     end
 
-    context 'com autenticação' do
-      it 'retorna o extrato da conta' do
+    context 'with authentication' do
+      it 'returns the account statement' do
         get "/api/v1/bank_accounts/#{user.bank_account.id}/statement", headers: headers
         expect(response).to have_http_status(:ok)
         body = JSON.parse(response.body)
         expect(body["transactions"].length).to eq(5)
       end
 
-      it 'filtra por data' do
+      it 'filters by date' do
         start_date = 1.day.ago
         end_date = Time.current
         get "/api/v1/bank_accounts/#{user.bank_account.id}/statement",
@@ -62,14 +62,14 @@ RSpec.describe "Api::V1::BankAccounts", type: :request do
         expect(response).to have_http_status(:ok)
       end
 
-      it 'filtra por valor mínimo' do
+      it 'filters by minimum value' do
         get "/api/v1/bank_accounts/#{user.bank_account.id}/statement",
             params: { min_amount: 50.00 },
             headers: headers
         expect(response).to have_http_status(:ok)
       end
 
-      it 'filtra por tipo' do
+      it 'filters by type' do
         get "/api/v1/bank_accounts/#{user.bank_account.id}/statement",
             params: { type: 'transfer' },
             headers: headers
@@ -77,8 +77,8 @@ RSpec.describe "Api::V1::BankAccounts", type: :request do
       end
     end
 
-    context 'sem autenticação' do
-      it 'retorna status 401' do
+    context 'without authentication' do
+      it 'returns status 401' do
         get "/api/v1/bank_accounts/#{user.bank_account.id}/statement"
         expect(response).to have_http_status(:unauthorized)
       end
