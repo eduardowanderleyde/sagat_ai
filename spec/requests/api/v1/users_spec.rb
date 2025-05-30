@@ -25,9 +25,9 @@ RSpec.describe "Api::V1::Users", type: :request do
   describe "PATCH /api/v1/users/:id" do
     context "with authentication" do
       it "updates the user data" do
-        patch "/api/v1/users/#{user.id}", params: { user: { name: "Novo Nome" } }, headers: headers
+        patch "/api/v1/users/#{user.id}", params: { user: { name: "New Name" } }, headers: headers
         expect(response).to have_http_status(:ok)
-        expect(JSON.parse(response.body)["name"]).to eq("Novo Nome")
+        expect(JSON.parse(response.body)["name"]).to eq("New Name")
       end
 
       it "returns error if the data is invalid" do

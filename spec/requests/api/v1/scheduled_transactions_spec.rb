@@ -15,7 +15,7 @@ RSpec.describe "Api::V1::ScheduledTransactions", type: :request do
         transaction: {
           amount: 100.00,
           destination_account_id: destination_user.bank_account.id,
-          description: 'Pagamento aluguel',
+          description: 'Rent payment',
           scheduled_for: 1.day.from_now.iso8601
         }
       }
