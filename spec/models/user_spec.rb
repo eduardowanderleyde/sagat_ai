@@ -14,7 +14,7 @@ RSpec.describe User, type: :model do
   it "is invalid with an invalid CPF" do
     user = build(:user, cpf: "12345678901")
     expect(user).not_to be_valid
-    expect(user.errors[:cpf]).to include("inválido")
+    expect(user.errors[:cpf]).to include("invalid")
   end
 
   it "strips non-digit characters from CPF" do

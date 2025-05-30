@@ -13,33 +13,33 @@ RSpec.describe "Api::V1::Auth", type: :request do
       }
     end
 
-    context 'com parâmetros válidos' do
-      it 'cria um novo usuário' do
+    context 'with valid parameters' do
+      it 'creates a new user' do
         expect {
           post '/api/v1/auth/register', params: valid_params
         }.to change(User, :count).by(1)
       end
 
-      it 'retorna status 201' do
+      it 'returns status 201' do
         post '/api/v1/auth/register', params: valid_params
         expect(response).to have_http_status(:created)
       end
 
-      it 'retorna um token JWT' do
+      it 'returns a JWT token' do
         post '/api/v1/auth/register', params: valid_params
         expect(JSON.parse(response.body)).to have_key('token')
       end
     end
 
-    context 'com parâmetros inválidos' do
-      it 'não cria um usuário com email duplicado' do
+    context 'with invalid parameters' do
+      it 'does not create a user with duplicate email' do
         create(:user, email: 'test@example.com')
         expect {
           post '/api/v1/auth/register', params: valid_params
         }.not_to change(User, :count)
       end
 
-      it 'retorna status 422' do
+      it 'returns status 422' do
         post '/api/v1/auth/register', params: { user: { email: 'invalid' } }
         expect(response).to have_http_status(:unprocessable_entity)
       end
@@ -49,20 +49,20 @@ RSpec.describe "Api::V1::Auth", type: :request do
   describe 'POST /api/v1/auth/login' do
     let(:user) { create(:user, password: 'password123') }
 
-    context 'com credenciais válidas' do
-      it 'retorna um token JWT' do
+    context 'with valid credentials' do
+      it 'returns a JWT token' do
         post '/api/v1/auth/login', params: { email: user.email, password: 'password123' }
         expect(JSON.parse(response.body)).to have_key('token')
       end
 
-      it 'retorna status 200' do
+      it 'returns status 200' do
         post '/api/v1/auth/login', params: { email: user.email, password: 'password123' }
         expect(response).to have_http_status(:ok)
       end
     end
 
-    context 'com credenciais inválidas' do
-      it 'retorna status 401' do
+    context 'with invalid credentials' do
+      it 'returns status 401' do
         post '/api/v1/auth/login', params: { email: user.email, password: 'wrong_password' }
         expect(response).to have_http_status(:unauthorized)
       end

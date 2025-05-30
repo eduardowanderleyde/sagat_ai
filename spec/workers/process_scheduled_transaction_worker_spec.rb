@@ -13,7 +13,7 @@ RSpec.describe ProcessScheduledTransactionWorker, type: :worker do
     )
   end
 
-  it 'processa a transferência agendada e atualiza os saldos' do
+  it 'processes the scheduled transfer and updates the balances' do
     # garante saldo suficiente antes de chamar o worker
     user.bank_account.update!(balance: 500.0)
 

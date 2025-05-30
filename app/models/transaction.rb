@@ -34,13 +34,13 @@ class Transaction < ApplicationRecord
 
   def source_and_destination_different
     if transaction_type == "transfer" && source_account_id == destination_account_id
-      errors.add(:base, "Conta de origem e destino não podem ser a mesma")
+      errors.add(:base, "Source and destination account cannot be the same")
     end
   end
 
   def source_account_has_sufficient_balance
     if source_account.balance < amount
-      errors.add(:base, "Saldo insuficiente para realizar a transferência")
+      errors.add(:base, "Insufficient balance to make the transfer")
     end
   end
 

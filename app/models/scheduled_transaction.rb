@@ -14,7 +14,7 @@ class ScheduledTransaction < ApplicationRecord
     return unless scheduled_for.present?
 
     if scheduled_for <= Time.current
-      errors.add(:scheduled_for, "deve ser uma data futura")
+      errors.add(:scheduled_for, "must be a future date")
     end
   end
 
@@ -22,13 +22,13 @@ class ScheduledTransaction < ApplicationRecord
     return unless source_account && amount.present?
 
     if source_account.balance < amount
-      errors.add(:base, "saldo insuficiente para realizar a transferência")
+      errors.add(:base, "insufficient balance to make the transfer")
     end
   end
 
   def source_and_destination_different
     if source_account_id == destination_account_id
-      errors.add(:base, "Conta de origem e destino não podem ser a mesma")
+      errors.add(:base, "Source and destination account cannot be the same")
     end
   end
 end

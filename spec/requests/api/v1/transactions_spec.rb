@@ -16,27 +16,27 @@ RSpec.describe "Api::V1::Transactions", type: :request do
       }
     end
 
-    context 'com autenticação' do
-      context 'com parâmetros válidos' do
-        it 'cria uma nova transação' do
+    context 'with authentication' do
+      context 'with valid parameters' do
+        it 'creates a new transaction' do
           expect {
             post '/api/v1/transactions', params: valid_params, headers: headers
           }.to change(Transaction, :count).by(1)
         end
 
-        it 'atualiza os saldos das contas' do
+        it 'updates the account balances' do
           post '/api/v1/transactions', params: valid_params, headers: headers
           expect(user.bank_account.reload.balance).to eq(900.00)
           expect(destination_user.bank_account.reload.balance).to eq(1100.00)
         end
 
-        it 'retorna status 201' do
+        it 'returns status 201' do
           post '/api/v1/transactions', params: valid_params, headers: headers
           expect(response).to have_http_status(:created)
         end
       end
 
-      context 'com saldo insuficiente' do
+      context 'with insufficient balance' do
         let(:invalid_params) do
           {
             transaction: {
@@ -46,21 +46,21 @@ RSpec.describe "Api::V1::Transactions", type: :request do
           }
         end
 
-        it 'não cria a transação' do
+        it 'does not create the transaction' do
           expect {
             post '/api/v1/transactions', params: invalid_params, headers: headers
           }.not_to change(Transaction, :count)
         end
 
-        it 'retorna status 422' do
+        it 'returns status 422' do
           post '/api/v1/transactions', params: invalid_params, headers: headers
           expect(response).to have_http_status(:unprocessable_entity)
         end
       end
     end
 
-    context 'sem autenticação' do
-      it 'retorna status 401' do
+    context 'without authentication' do
+      it 'returns status 401' do
         post '/api/v1/transactions', params: valid_params
         expect(response).to have_http_status(:unauthorized)
       end
@@ -73,20 +73,20 @@ RSpec.describe "Api::V1::Transactions", type: :request do
       create_list(:transaction, 2, destination_account: user.bank_account)
     end
 
-    context 'com autenticação' do
-      it 'retorna as transações do usuário' do
+    context 'with authentication' do
+      it 'returns the user transactions' do
         get '/api/v1/transactions', headers: headers
         expect(JSON.parse(response.body).length).to eq(5)
       end
 
-      it 'retorna status 200' do
+      it 'returns status 200' do
         get '/api/v1/transactions', headers: headers
         expect(response).to have_http_status(:ok)
       end
     end
 
-    context 'sem autenticação' do
-      it 'retorna status 401' do
+    context 'without authentication' do
+      it 'returns status 401' do
         get '/api/v1/transactions'
         expect(response).to have_http_status(:unauthorized)
       end
@@ -103,8 +103,8 @@ RSpec.describe "Api::V1::Transactions", type: :request do
       }
     end
 
-    context 'com autenticação' do
-      it 'realiza um depósito na conta' do
+    context 'with authentication' do
+      it 'makes a deposit to the account' do
         expect {
           post '/api/v1/transactions/deposit', params: deposit_params, headers: headers
         }.to change(Transaction, :count).by(1)
@@ -112,8 +112,8 @@ RSpec.describe "Api::V1::Transactions", type: :request do
       end
     end
 
-    context 'sem autenticação' do
-      it 'retorna status 401' do
+    context 'without authentication' do
+      it 'returns status 401' do
         post '/api/v1/transactions/deposit', params: deposit_params
         expect(response).to have_http_status(:unauthorized)
       end
