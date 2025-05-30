@@ -5,7 +5,7 @@ RSpec.describe 'Scheduled Transactions API', type: :request, swagger_doc: 'v1/sw
     post 'Schedule a new transfer' do
       tags 'Scheduled Transactions'
       consumes 'application/json'
-      security [Bearer: []]
+      security [ Bearer: [] ]
       parameter name: :transaction, in: :body, schema: {
         type: :object,
         properties: {
@@ -47,4 +47,4 @@ RSpec.describe 'Scheduled Transactions API', type: :request, swagger_doc: 'v1/sw
       end
     end
   end
-end 
+end

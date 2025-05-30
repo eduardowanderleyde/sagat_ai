@@ -5,7 +5,7 @@ RSpec.describe 'Statement API', type: :request, swagger_doc: 'v1/swagger.yaml' d
     get 'Get account statement with optional filters' do
       tags 'Statement'
       produces 'application/json'
-      security [Bearer: []]
+      security [ Bearer: [] ]
       parameter name: :start_date, in: :query, type: :string, format: :date, required: false, description: 'Start date filter'
       parameter name: :end_date, in: :query, type: :string, format: :date, required: false, description: 'End date filter'
       parameter name: :min_amount, in: :query, type: :number, format: :float, required: false, description: 'Minimum amount filter'
@@ -45,4 +45,4 @@ RSpec.describe 'Statement API', type: :request, swagger_doc: 'v1/swagger.yaml' d
       end
     end
   end
-end 
+end

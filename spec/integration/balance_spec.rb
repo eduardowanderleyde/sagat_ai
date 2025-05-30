@@ -5,7 +5,7 @@ RSpec.describe 'Bank Account API', type: :request, swagger_doc: 'v1/swagger.yaml
     get 'Get current user account balance' do
       tags 'Bank Account'
       produces 'application/json'
-      security [Bearer: []]
+      security [ Bearer: [] ]
 
       response '200', 'balance returned' do
         schema type: :object,
@@ -26,4 +26,4 @@ RSpec.describe 'Bank Account API', type: :request, swagger_doc: 'v1/swagger.yaml
       end
     end
   end
-end 
+end

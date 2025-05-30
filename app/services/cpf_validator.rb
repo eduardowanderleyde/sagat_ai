@@ -20,4 +20,4 @@ class CpfValidator
     end
     (sum * 10 % 11) % 10
   end
-end 
+end

@@ -8,4 +8,4 @@ class TokenService
   rescue JWT::DecodeError
     nil
   end
-end 
+end
