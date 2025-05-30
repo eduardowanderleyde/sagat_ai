@@ -46,4 +46,4 @@ RSpec.describe 'Auth API', type: :request, swagger_doc: 'v1/swagger.yaml' do
       end
     end
   end
-end 
+end

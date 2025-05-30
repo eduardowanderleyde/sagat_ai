@@ -9,4 +9,4 @@ class TransactionProcessor
     transaction.update!(status: "failed")
     Rails.logger.error("Transaction failed: #{e.message}")
   end
-end 
+end

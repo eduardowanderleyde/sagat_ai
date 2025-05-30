@@ -5,7 +5,7 @@ RSpec.describe 'Transactions API', type: :request, swagger_doc: 'v1/swagger.yaml
     post 'Create a new transfer transaction' do
       tags 'Transactions'
       consumes 'application/json'
-      security [Bearer: []]
+      security [ Bearer: [] ]
       parameter name: :transaction, in: :body, schema: {
         type: :object,
         properties: {
@@ -46,4 +46,4 @@ RSpec.describe 'Transactions API', type: :request, swagger_doc: 'v1/swagger.yaml
       end
     end
   end
-end 
+end

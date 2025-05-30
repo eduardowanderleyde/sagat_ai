@@ -5,7 +5,7 @@ RSpec.describe 'Users API', type: :request, swagger_doc: 'v1/swagger.yaml' do
     get 'Get user data' do
       tags 'Users'
       produces 'application/json'
-      security [Bearer: []]
+      security [ Bearer: [] ]
       parameter name: :id, in: :path, type: :integer, required: true, description: 'User ID'
 
       response '200', 'user found' do
@@ -33,7 +33,7 @@ RSpec.describe 'Users API', type: :request, swagger_doc: 'v1/swagger.yaml' do
     patch 'Update user data' do
       tags 'Users'
       consumes 'application/json'
-      security [Bearer: []]
+      security [ Bearer: [] ]
       parameter name: :id, in: :path, type: :integer, required: true, description: 'User ID'
       parameter name: :user, in: :body, schema: {
         type: :object,
@@ -71,4 +71,4 @@ RSpec.describe 'Users API', type: :request, swagger_doc: 'v1/swagger.yaml' do
       end
     end
   end
-end 
+end

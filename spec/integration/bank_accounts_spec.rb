@@ -5,7 +5,7 @@ RSpec.describe 'Bank Accounts API', type: :request, swagger_doc: 'v1/swagger.yam
     get 'Get user bank account' do
       tags 'Bank Account'
       produces 'application/json'
-      security [Bearer: []]
+      security [ Bearer: [] ]
       parameter name: :id, in: :path, type: :integer, required: true, description: 'Bank Account ID'
 
       response '200', 'bank account found' do
@@ -35,7 +35,7 @@ RSpec.describe 'Bank Accounts API', type: :request, swagger_doc: 'v1/swagger.yam
     get 'Get balance for a specific bank account' do
       tags 'Bank Account'
       produces 'application/json'
-      security [Bearer: []]
+      security [ Bearer: [] ]
       parameter name: :id, in: :path, type: :integer, required: true, description: 'Bank Account ID'
 
       response '200', 'balance returned' do
@@ -62,7 +62,7 @@ RSpec.describe 'Bank Accounts API', type: :request, swagger_doc: 'v1/swagger.yam
     get 'Get statement for a specific bank account' do
       tags 'Bank Account'
       produces 'application/json'
-      security [Bearer: []]
+      security [ Bearer: [] ]
       parameter name: :id, in: :path, type: :integer, required: true, description: 'Bank Account ID'
       parameter name: :start_date, in: :query, type: :string, format: :date, required: false, description: 'Start date filter'
       parameter name: :end_date, in: :query, type: :string, format: :date, required: false, description: 'End date filter'
@@ -103,4 +103,4 @@ RSpec.describe 'Bank Accounts API', type: :request, swagger_doc: 'v1/swagger.yam
       end
     end
   end
-end 
+end
