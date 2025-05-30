@@ -23,66 +23,75 @@ Things you may want to cover:
 
 * ...
 
-# sagat_ai - API Bancária Segura
+# sagat_ai - Secure Banking API
 
-API para operações bancárias, incluindo autenticação JWT, transferências, agendamento de transferências futuras, extrato e consulta de saldo.
+API for banking operations, including JWT authentication, transfers, scheduled transfers, statement and balance inquiry.
 
-## 🚀 Tecnologias
+## 🚀 Technologies
 
-- Ruby on Rails
+* Ruby on Rails
 * PostgreSQL
-* Sidekiq (processamento assíncrono)
+* Sidekiq (async jobs)
 * Docker
-* RSpec (testes automatizados)
+* RSpec (automated tests)
+* Swagger (API documentation)
 
-## ⚙️ Setup e Instalação
+## ⚙️ Setup and Installation
 
-### Pré-requisitos
+### Prerequisites
 
-- Ruby 3.2+
+* Ruby 3.2+
 * Rails 8+
 * PostgreSQL
-* Redis (para Sidekiq)
-* Docker (opcional, recomendado)
+* Redis (for Sidekiq)
+* Docker (optional, recommended)
 
-### Instalação manual
+### Manual Installation
 
 ```sh
 bundle install
 rails db:setup
 ```
 
-### Usando Docker
+### Using Docker
 
 ```sh
 docker build -t sagat_ai .
 docker run -p 3000:3000 sagat_ai
 ```
 
-### Usando Docker Compose (se disponível)
+### Using Docker Compose (if available)
 
 ```sh
 docker-compose up --build
 ```
 
-## 🧪 Rodando os Testes
+## 🧪 Running Tests
 
 ```sh
 bundle exec rspec
 ```
 
-## 🔐 Autenticação e Fluxos Principais
+## 📖 API Documentation (Swagger)
 
-### 1. Criar usuário
+After running the server, access:
+
+```
+http://localhost:3000/api-docs
+```
+
+## 🔐 Authentication and Main Flows
+
+### 1. Register user
 
 ```http
-POST /api/v1/users
+POST /api/v1/auth/register
 {
   "user": {
-    "email": "usuario@exemplo.com",
-    "password": "senha123",
-    "name": "Nome Completo",
-    "cpf": "12345678900"
+    "email": "user@example.com",
+    "password": "password123",
+    "name": "Test User",
+    "cpf": "52998224725"
   }
 }
 ```
@@ -92,12 +101,12 @@ POST /api/v1/users
 ```http
 POST /api/v1/auth/login
 {
-  "email": "usuario@exemplo.com",
-  "password": "senha123"
+  "email": "user@example.com",
+  "password": "password123"
 }
 ```
 
-**Resposta:**
+**Response:**
 
 ```json
 {
@@ -106,73 +115,80 @@ POST /api/v1/auth/login
 }
 ```
 
-> Use o token JWT no header das próximas requisições:
+> Use the JWT token in the header for the next requests:
 > `Authorization: Bearer <token>`
 
-### 3. Consultar saldo
+### 3. Check balance
 
 ```http
-GET /api/v1/conta/saldo
+GET /api/v1/account/balance
 Authorization: Bearer <token>
 ```
 
-### 4. Realizar transferência
+### 4. Make a transfer
 
 ```http
-POST /api/v1/transferencias
+POST /api/v1/transactions
 Authorization: Bearer <token>
 {
   "transaction": {
     "amount": 100.0,
     "destination_account_id": 2,
-    "description": "Pagamento"
+    "description": "Transfer payment"
   }
 }
 ```
 
-### 5. Agendar transferência futura
+### 5. Schedule a future transfer
 
 ```http
-POST /api/v1/transferencias/agendada
+POST /api/v1/scheduled_transactions
 Authorization: Bearer <token>
 {
   "transaction": {
     "amount": 50.0,
     "destination_account_id": 2,
-    "description": "Pagamento aluguel",
+    "description": "Rent payment",
     "scheduled_for": "2025-05-25T10:00:00"
   }
 }
 ```
 
-### 6. Listar extrato (com filtros opcionais)
+### 6. List statement (with optional filters)
 
 ```http
-GET /api/v1/extrato?start_date=2025-05-01&end_date=2025-05-31&min_amount=10&type=transfer
+GET /api/v1/statement?start_date=2025-05-01&end_date=2025-05-31&min_amount=10&type=transfer
 Authorization: Bearer <token>
 ```
 
-## 📌 Principais decisões técnicas
+## 📌 Main Technical Decisions
 
-- Autenticação JWT para segurança
-* Validação de CPF no cadastro
-* Operações atômicas para atualização de saldo
-* Sidekiq para agendamento e processamento assíncrono
-* Testes automatizados com RSpec
-* Docker para facilitar setup e deploy
+* JWT authentication for security
+* CPF validation on registration
+* Atomic operations for balance updates
+* Sidekiq for scheduling and async processing
+* Automated tests with RSpec
+* Docker for easy setup and deploy
+* Swagger for interactive API documentation
 
-## 📝 O que faria diferente com mais tempo
+## 📝 What I would do differently with more time / Future improvements
 
-- Implementaria paginação no extrato
-* Adicionaria documentação Swagger/OpenAPI
-* Implementaria logs de auditoria detalhados
-* Melhoraria a cobertura de testes (ex: testes de integração)
-* Implementaria versionamento de API
+* Implement pagination in statement endpoints
+* Add more detailed Swagger/OpenAPI documentation and examples
+* Implement detailed audit logs for all critical operations
+* Improve test coverage (integration and edge cases)
+* Implement API versioning
+* Add admin dashboard for user/account management
+* Add rate limiting and brute-force protection
+* Add email notifications for scheduled/failed transfers
+* Add 2FA/MFA for sensitive operations
+* Add monitoring and alerting (ex: Sentry, NewRelic)
+* Add internationalization (i18n) for multi-language support
 
-## 📸 Prints ou GIFs (opcional)
+## 📸 Screenshots or GIFs (optional)
 
-Adicione aqui prints de requisições ou GIFs mostrando o uso da API (ex: Postman, terminal, etc).
+Add here screenshots or GIFs showing API usage (ex: Postman, terminal, Swagger UI, etc).
 
 ---
 
-Qualquer dúvida, abra uma issue ou entre em contato!
+Any questions? Open an issue or contact me!
